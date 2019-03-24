@@ -1,0 +1,92 @@
+---
+title: "Interactive Network Visualization of Highschooler Social"
+output: html_notebook
+---
+
+```{r}
+library('visNetwork') 
+```
+
+# Friendship
+
+```{r}
+nodes <- read.csv("data/Highschooler.csv", header=T, as.is=T)
+friends <- read.csv("data/Friend.csv", header=T, as.is=T)
+```
+
+```{r}
+nodes$title <- paste0("grade", nodes$grade)
+nodes$label <- nodes$name
+visNetwork(nodes, friends)
+```
+
+```{r}
+nodes$color.background <- c("orange", "pink", "yellow", "blue")[nodes$grade]
+visNetwork(nodes, friends)
+```
+
+```{r}
+nodes$grade <- as.factor(nodes$grade)
+nodes$color.background <- c("orange", "pink", "yellow", "blue")[nodes$grade]
+visNetwork(nodes, friends)
+```
+
+
+
+```{r}
+visNetwork(nodes, friends) %>% 
+  visOptions(selectedBy = "grade")
+```
+
+```{r}
+likes <- read.csv("data/Likes.csv", header=T, as.is=T)
+```
+
+```{r}
+visNetwork(nodes, likes)
+```
+
+```{r}
+likes$arrows <- "to"
+visNetwork(nodes, likes)
+```
+
+```{r}
+friends$relation <- c("friend")
+likes$relation <- c("likes")
+```
+
+```{r}
+friends
+```
+
+```{r}
+library(tidyverse)
+```
+
+```{r}
+links <- bind_rows(friends, likes)
+links
+```
+
+```{r}
+visNetwork(nodes, links)
+```
+
+```{r}
+links$color <- c("green", "red")[links$relation]
+visNetwork(nodes, links)
+```
+
+```{r}
+links$relation <- as.factor(links$relation)
+links$color <- c("green", "red")[links$relation]
+visNetwork(nodes, links)
+```
+
+```{r}
+links$relation <- as.factor(links$relation)
+links$color <- c("green", "red")[links$relation]
+visNetwork(nodes, links) %>% 
+  visOptions(selectedBy = "grade")
+```
