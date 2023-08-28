@@ -4,6 +4,14 @@ output: html_notebook
 ---
 
 ```{r}
+r <- getOption("repos")
+r["CRAN"] <- "http://cran.us.r-project.org"
+options(repos = r)
+rm(r)
+```
+
+
+```{r}
 library('visNetwork') 
 ```
 
